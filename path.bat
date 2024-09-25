@@ -3,6 +3,7 @@ $newPath = ($env:PATH -split ';' | Where-Object { $_ -ne 'C:\Program Files\nodej
 
 # Adiciona o caminho do Python ao PATH
 $newPath += ";$env:USERPROFILE\AppData\Local\Programs\Python\Python312"
+$newPath += ";C:\Users\10345\AppData\Local\Programs\Python\Python312\Scripts"
 
 # Adiciona o caminho do Node.js que você deseja incluir
 $newPath += ";C:\node\node-v20.17.0-win-x64"
