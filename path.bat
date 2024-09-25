@@ -20,3 +20,8 @@ setx PATH $newPath
 
 # Confirma a atualização
 $env:PATH -split ';' | ForEach-Object { $_ } | Select-Object -Unique
+python.exe -m pip install --upgrade pip
+pip install Flask-CORS
+pip install Flask
+pip install mysql-connector-python
+
