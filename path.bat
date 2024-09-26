@@ -7,6 +7,9 @@ Set-Alias node "$nodePath\node.exe"
 Set-Alias npm "$nodePath\npm.cmd"
 Set-Alias npx "$nodePath\npx.cmd"
 
+
+[Environment]::SetEnvironmentVariable('Path', ($env:Path -replace 'C:\\Program Files\\nodejs;?', ''), 'User')
+
 # Obter o PATH atual do usuário
 $currentPath = [Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User)
 
