@@ -6,11 +6,11 @@ $androidStudioDirectory = "C:\android-studio\bin"
 $newPath = ($env:PATH -split ';' | Where-Object { $_ -ne 'C:\Program Files\nodejs\' -and $_ -ne 'C:\Program Files\nodejs' }) -join ';'
 $newPath = ($newPath -split ';' | Where-Object { $_ -ne $nodeDirectory }) -join ';'
 
-# Adiciona o caminho do Node.js
-$newPath += ";$nodeDirectory"
-
 # Remove o caminho do Android Studio do PATH existente, se presente
 $newPath = ($newPath -split ';' | Where-Object { $_ -ne 'C:\android-studio\bin' }) -join ';'
+
+# Adiciona o caminho do Node.js
+$newPath += ";$nodeDirectory"
 
 # Adiciona o caminho do Android Studio ao PATH
 $newPath += ";$androidStudioDirectory"
@@ -45,14 +45,5 @@ if (-not (Test-Path -Path $reactPath)) {
 Set-Location -Path $reactPath
 Write-Output "Navegando para a pasta 'react': $reactPath"
 
-# Verifica se existe uma pasta do projeto anterior e remove
-$projectFolder = "projeto"
-if (Test-Path -Path "$reactPath\$projectFolder") {
-    Remove-Item -Path "$reactPath\$projectFolder" -Recurse -Force
-    Write-Output "Pasta '$projectFolder' removida."
-} else {
-    Write-Output "Nenhuma pasta '$projectFolder' encontrada para remoção."
-}
-
 # Criar um novo projeto Expo
-npx expo init $projectFolder --template blank
+#npx expo init $projectFolder --template blank
