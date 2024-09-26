@@ -1,31 +1,24 @@
-# Diretórios a serem adicionados
-$newPaths = "C:\node\node-v20.17.0-win-x64", "C:\android-studio\bin"
+# Definindo os caminhos
+$nodePath = "C:\node\node-v20.17.0-win-x64"
+$androidStudioPath = "C:\android-studio\bin"
 
-# Caminho atual
-$currentPaths = [System.Collections.Generic.List[string]]::new(($env:Path -split ';'))
+# Obter o PATH atual do usuário
+$currentPath = [Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User)
 
-# Remova o caminho de Node.js antigo e duplicatas
-$currentPaths = $currentPaths | Where-Object { $_ -notlike "C:\Program Files\nodejs" } | Select-Object -Unique
-
-# Adicione os novos caminhos, garantindo que sejam únicos
-foreach ($path in $newPaths) {
-    if (-not $currentPaths.Contains($path)) {
-        $currentPaths.Add($path)
-    }
+# Remover diretórios de Node.js anteriormente no PATH
+$nodePaths = @("C:\node", "C:\node\node-v20.17.0-win-x64", "C:\Program Files\nodejs")
+foreach ($path in $nodePaths) {
+    $currentPath = $currentPath -replace [regex]::Escape($path + ";"), ""
 }
 
-# Atualize o Path
-[Environment]::SetEnvironmentVariable('Path', ($currentPaths -join ';'), [System.EnvironmentVariableTarget]::Machine)
+# Adicionar novos caminhos ao PATH do usuário, evitando duplicatas
+$newPath = "$currentPath;$nodePath;$androidStudioPath"
+setx PATH "$newPath"
 
-# Exiba o Path atualizado
-$env:Path = [Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::Machine)
-$env:Path -split ';'
-
-
-# Definindo aliases
-Set-Alias node "C:\node\node-v20.17.0-win-x64\node.exe"
-Set-Alias npm "C:\node\node-v20.17.0-win-x64\npm.cmd"
-Set-Alias npx "C:\node\node-v20.17.0-win-x64\npx.cmd"
+# Definindo aliases (apenas para a sessão atual)
+Set-Alias node "$nodePath\node.exe"
+Set-Alias npm "$nodePath\npm.cmd"
+Set-Alias npx "$nodePath\npx.cmd"
 
 # Definindo o caminho do diretório
 $reactPath = "$env:USERPROFILE\Documents\react"
@@ -42,7 +35,5 @@ if (-not (Test-Path -Path $reactPath)) {
 Set-Location -Path $reactPath
 Write-Output "Navegando para a pasta 'react': $reactPath"
 
-
-
-# Criar um novo projeto Expo
+# Comando para criar um novo projeto Expo, caso necessário
 # npx expo init $projectFolder --template blank
