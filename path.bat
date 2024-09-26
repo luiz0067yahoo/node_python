@@ -31,6 +31,21 @@ setx PATH $newPath
 
 Set-Alias node "C:\node\node-v20.17.0-win-x64\node.exe"
 
-npx expo install react-native-web react-dom @expo/metro-runtime
+# Definindo o caminho do diretório
+$reactPath = "$env:USERPROFILE\Documents\react"
+
+# Criar a pasta react se não existir
+if (-not (Test-Path -Path $reactPath)) {
+    New-Item -Path $reactPath -ItemType Directory
+    Write-Output "Pasta 'react' criada em $reactPath."
+} else {
+    Write-Output "A pasta 'react' já existe em $reactPath."
+}
+
+# Navegar para a pasta react
+Set-Location -Path $reactPath
+Write-Output "Navegando para a pasta 'react': $reactPath"
+
+#npx expo install react-native-web react-dom @expo/metro-runtime
 
 
