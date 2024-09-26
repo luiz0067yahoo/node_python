@@ -1,8 +1,16 @@
-# Definindo o caminho do Android Studio
+# Definindo os caminhos
+$nodeDirectory = "C:\node\node-v20.17.0-win-x64"
 $androidStudioDirectory = "C:\android-studio\bin"
 
+# Remove o caminho do Node.js do PATH existente, se presente
+$newPath = ($env:PATH -split ';' | Where-Object { $_ -ne 'C:\Program Files\nodejs\' -and $_ -ne 'C:\Program Files\nodejs' }) -join ';'
+$newPath = ($newPath -split ';' | Where-Object { $_ -ne $nodeDirectory }) -join ';'
+
+# Adiciona o caminho do Node.js
+$newPath += ";$nodeDirectory"
+
 # Remove o caminho do Android Studio do PATH existente, se presente
-$newPath = ($env:PATH -split ';' | Where-Object { $_ -ne $androidStudioDirectory }) -join ';'
+$newPath = ($newPath -split ';' | Where-Object { $_ -ne 'C:\android-studio\bin' }) -join ';'
 
 # Adiciona o caminho do Android Studio ao PATH
 $newPath += ";$androidStudioDirectory"
@@ -18,5 +26,4 @@ Write-Host $newPath
 setx PATH $newPath
 
 # Confirma a atualização
-Write-Output "O PATH foi atualizado com sucesso."
 $env:PATH -split ';' | ForEach-Object { $_ } | Select-Object -Unique
