@@ -45,6 +45,5 @@ if (-not (Test-Path -Path $reactPath)) {
 Set-Location -Path $reactPath
 Write-Output "Navegando para a pasta 'react': $reactPath"
 
-
 # Criar um novo projeto Expo
 #npx expo init $projectFolder --template blank
