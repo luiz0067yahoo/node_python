@@ -27,3 +27,5 @@ setx PATH $newPath
 
 # Confirma a atualização
 $env:PATH -split ';' | ForEach-Object { $_ } | Select-Object -Unique
+
+npx expo install react-native-web react-dom @expo/metro-runtime
