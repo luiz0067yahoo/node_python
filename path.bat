@@ -43,4 +43,5 @@ Write-Output "Navegando para a pasta 'react': $reactPath"
 # node 16
 #npm uninstall -g expo-cli 
 #npm install -g expo-cli@5.4.0
-#
+#npm install -g create-expo-app@0.9.0
+#npx create-expo-app@0.9.0 aula06
