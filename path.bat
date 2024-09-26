@@ -2,6 +2,11 @@
 $nodePath = "C:\node\node-v20.17.0-win-x64"
 $androidStudioPath = "C:\android-studio\bin"
 
+# Definindo aliases (apenas para a sessão atual)
+Set-Alias node "$nodePath\node.exe"
+Set-Alias npm "$nodePath\npm.cmd"
+Set-Alias npx "$nodePath\npx.cmd"
+
 # Obter o PATH atual do usuário
 $currentPath = [Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User)
 
@@ -15,10 +20,7 @@ foreach ($path in $nodePaths) {
 $newPath = "$currentPath;$nodePath;$androidStudioPath"
 setx PATH "$newPath"
 
-# Definindo aliases (apenas para a sessão atual)
-Set-Alias node "$nodePath\node.exe"
-Set-Alias npm "$nodePath\npm.cmd"
-Set-Alias npx "$nodePath\npx.cmd"
+
 
 # Definindo o caminho do diretório
 $reactPath = "$env:USERPROFILE\Documents\react"
