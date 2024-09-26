@@ -38,3 +38,4 @@ Write-Output "Navegando para a pasta 'react': $reactPath"
 #npx create-expo-app aula06
 #cd aula06
 #npx expo start --port 80
+#npx expo install react-native-web react-dom @expo/metro-runtime
