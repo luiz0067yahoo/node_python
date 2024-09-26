@@ -17,7 +17,7 @@ $newPath += ";$androidStudioDirectory"
 
 # Remove entradas duplicadas
 $newPath = ($newPath -split ';' | Select-Object -Unique) -join ';'
-
+$env:PATH -split ';' | Select-Object -Unique
 # Exibe o novo PATH que será definido
 Write-Host "Novo PATH a ser definido:"
 Write-Host $newPath
