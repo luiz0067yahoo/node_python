@@ -1,28 +1,22 @@
 # Definindo os caminhos
 $nodeDirectory = "C:\node\node-v20.17.0-win-x64"
 $androidStudioDirectory = "C:\android-studio\bin"
+$nodejsDirectory = "C:\Program Files\nodejs"
 
-# Remove o caminho do Node.js do PATH existente, se presente
-$newPath = ($env:PATH -split ';' | Where-Object { $_ -ne 'C:\Program Files\nodejs\' -and $_ -ne 'C:\Program Files\nodejs' }) -join ';'
-$newPath = ($newPath -split ';' | Where-Object { $_ -ne $nodeDirectory }) -join ';'
+# Remove o caminho do Node.js e do Android Studio do PATH existente, se presente
+$newPath = ($env:PATH -split ';' | Where-Object { $_ -ne $nodejsDirectory }) -join ';'
 
-# Adiciona o caminho do Node.js
-$newPath += ";$nodeDirectory"
-
-# Remove o caminho do Android Studio do PATH existente, se presente
-$newPath = ($newPath -split ';' | Where-Object { $_ -ne 'C:\android-studio\bin' }) -join ';'
-
-# Adiciona o caminho do Android Studio ao PATH
-$newPath += ";$androidStudioDirectory"
+# Adiciona os novos caminhos do Node.js e Android Studio
+$newPath += ";$nodeDirectory;$androidStudioDirectory"
 
 # Remove entradas duplicadas
 $newPath = ($newPath -split ';' | Select-Object -Unique) -join ';'
-$env:PATH -split ';' | Select-Object -Unique
+
 # Exibe o novo PATH que será definido
 Write-Host "Novo PATH a ser definido:"
 Write-Host $newPath
 
-# Define o PATH atualizado
+# Define o PATH atualizado de forma definitiva
 setx PATH $newPath
 
 # Definindo aliases
@@ -32,6 +26,7 @@ Set-Alias npx "C:\node\node-v20.17.0-win-x64\npx.exe"
 
 # Definindo o caminho do diretório
 $reactPath = "$env:USERPROFILE\Documents\react"
+$projectFolder = "projeto"
 
 # Criar a pasta react se não existir
 if (-not (Test-Path -Path $reactPath)) {
@@ -47,3 +42,10 @@ Write-Output "Navegando para a pasta 'react': $reactPath"
 
 # Criar um novo projeto Expo
 #npx expo init $projectFolder --template blank
+
+# Navega para a nova pasta do projeto
+#Set-Location -Path "$reactPath\$projectFolder"
+#Write-Output "Navegando para a pasta do projeto: $reactPath\$projectFolder"
+
+# Inicia o projeto
+#npx expo start
