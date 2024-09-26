@@ -88,4 +88,10 @@ pip install Flask-CORS
 pip install Flask
 pip install mysql-connector-python
 
+
+
+Set-Alias node "C:\node\node-v20.17.0-win-x64\node.exe"
+Set-Alias npm "C:\node\node-v20.17.0-win-x64\npm.exe"
+Set-Alias npx "C:\node\node-v20.17.0-win-x64\npx.exe"
+
 # New-NetFirewallRule -DisplayName "Allow HTTP" -Direction Inbound -Protocol TCP -LocalPort 8081 -Action Allow
