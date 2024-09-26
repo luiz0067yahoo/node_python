@@ -22,12 +22,12 @@ $newPath = ($newPath -split ';' | Select-Object -Unique) -join ';'
 Write-Host "Novo PATH a ser definido:"
 Write-Host $newPath
 
-# Define o PATH atualizado
-setx PATH $newPath
-
 
 # Confirma a atualização
 $env:PATH -split ';' | ForEach-Object { $_ } | Select-Object -Unique
+
+# Define o PATH atualizado
+setx PATH $newPath
 
 Set-Alias node "C:\node\node-v20.17.0-win-x64\node.exe"
 
