@@ -30,6 +30,8 @@ $env:PATH -split ';' | ForEach-Object { $_ } | Select-Object -Unique
 setx PATH $newPath
 
 Set-Alias node "C:\node\node-v20.17.0-win-x64\node.exe"
+Set-Alias npm "C:\node\node-v20.17.0-win-x64\npm.exe"
+Set-Alias npx "C:\node\node-v20.17.0-win-x64\npx.exe"
 
 # Definindo o caminho do diretório
 $reactPath = "$env:USERPROFILE\Documents\react"
