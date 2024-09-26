@@ -1,38 +1,26 @@
-# Definindo os caminhos
-$nodeDirectory = "C:\node\node-v20.17.0-win-x64"
-$androidStudioDirectory = "C:\android-studio\bin"
-$nodeJsPath = "C:\Program Files\nodejs"  # Caminho da pasta do Node.js a ser removida
+# Diretórios a serem adicionados
+$newPaths = "C:\node\node-v20.17.0-win-x64", "C:\android-studio\bin"
 
-# Remove a pasta do Node.js, se existir
-if (Test-Path -Path $nodeJsPath) {
-    Remove-Item -Path $nodeJsPath -Recurse -Force
-    Write-Output "Pasta 'C:\Program Files\nodejs' removida."
-} else {
-    Write-Output "Nenhuma pasta 'C:\Program Files\nodejs' encontrada para remoção."
+# Caminho atual
+$currentPaths = [System.Collections.Generic.List[string]]::new(($env:Path -split ';'))
+
+# Remova o caminho de Node.js antigo e duplicatas
+$currentPaths = $currentPaths | Where-Object { $_ -notlike "C:\Program Files\nodejs" } | Select-Object -Unique
+
+# Adicione os novos caminhos, garantindo que sejam únicos
+foreach ($path in $newPaths) {
+    if (-not $currentPaths.Contains($path)) {
+        $currentPaths.Add($path)
+    }
 }
 
-# Remove o caminho do Node.js do PATH existente, se presente
-$newPath = ($env:PATH -split ';' | Where-Object { $_ -ne $nodeJsPath }) -join ';'
-$newPath = ($newPath -split ';' | Where-Object { $_ -ne $nodeDirectory }) -join ';'
+# Atualize o Path
+[Environment]::SetEnvironmentVariable('Path', ($currentPaths -join ';'), [System.EnvironmentVariableTarget]::Machine)
 
-# Adiciona o caminho do Node.js
-$newPath += ";$nodeDirectory"
+# Exiba o Path atualizado
+$env:Path = [Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::Machine)
+$env:Path -split ';'
 
-# Remove o caminho do Android Studio do PATH existente, se presente
-$newPath = ($newPath -split ';' | Where-Object { $_ -ne 'C:\android-studio\bin' }) -join ';'
-
-# Adiciona o caminho do Android Studio ao PATH
-$newPath += ";$androidStudioDirectory"
-
-# Remove entradas duplicadas
-$newPath = ($newPath -split ';' | Select-Object -Unique) -join ';'
-
-# Exibe o novo PATH que será definido
-Write-Host "Novo PATH a ser definido:"
-Write-Host $newPath
-
-# Define o PATH atualizado
-setx PATH $newPath
 
 # Definindo aliases
 Set-Alias node "C:\node\node-v20.17.0-win-x64\node.exe"
@@ -54,7 +42,7 @@ if (-not (Test-Path -Path $reactPath)) {
 Set-Location -Path $reactPath
 Write-Output "Navegando para a pasta 'react': $reactPath"
 
-}
+
 
 # Criar um novo projeto Expo
 # npx expo init $projectFolder --template blank
