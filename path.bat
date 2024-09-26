@@ -10,6 +10,17 @@ Set-Alias npx "$nodePath\npx.cmd"
 
 [Environment]::SetEnvironmentVariable('Path', ($env:Path -replace 'C:\\Program Files\\nodejs;?', ''), 'User')
 
+
+
+
+$pathEntries = $env:Path -split ';'
+$uniquePathEntries = $pathEntries | Select-Object -Unique
+[Environment]::SetEnvironmentVariable('Path', ($uniquePathEntries -join ';'), 'User')
+
+
+
+
+
 # Obter o PATH atual do usuário
 $currentPath = [Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User)
 
