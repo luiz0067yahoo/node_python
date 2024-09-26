@@ -3,9 +3,9 @@ $nodePath = "C:\node\node-v20.17.0-win-x64"
 $androidStudioPath = "C:\android-studio\bin"
 
 # Definindo aliases (apenas para a sessão atual)
-Set-Alias node "$nodePath\node.exe"
-Set-Alias npm "$nodePath\npm.cmd"
-Set-Alias npx "$nodePath\npx.cmd"
+Set-Alias node "C:\node\node-v20.17.0-win-x64\node.exe"
+Set-Alias npm "C:\node\node-v20.17.0-win-x64\npm.cmd"
+Set-Alias npx "C:\node\node-v20.17.0-win-x64\npx.cmd"
 
 
 [Environment]::SetEnvironmentVariable('Path', ($env:Path -replace 'C:\\Program Files\\nodejs;?', ''), 'User')
