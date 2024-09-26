@@ -2,9 +2,13 @@
 $nodeDirectory = "C:\node\node-v20.17.0-win-x64"
 $androidStudioDirectory = "C:\android-studio\bin"
 $nodejsDirectory = "C:\Program Files\nodejs"
+$reactPath = "$env:USERPROFILE\Documents\react"
+$projectFolder = "projeto"
 
-# Remove o caminho do Node.js e do Android Studio do PATH existente, se presente
-$newPath = ($env:PATH -split ';' | Where-Object { $_ -ne $nodejsDirectory }) -join ';'
+# Remove o caminho do Node.js do PATH existente, se presente
+$newPath = ($env:PATH -split ';' | Where-Object { 
+    $_ -ne $nodejsDirectory -and $_ -ne $nodeDirectory -and $_ -ne $androidStudioDirectory 
+}) -join ';'
 
 # Adiciona os novos caminhos do Node.js e Android Studio
 $newPath += ";$nodeDirectory;$androidStudioDirectory"
@@ -21,12 +25,8 @@ setx PATH $newPath
 
 # Definindo aliases
 Set-Alias node "C:\node\node-v20.17.0-win-x64\node.exe"
-Set-Alias npm "C:\node\node-v20.17.0-win-x64\npm.exe"
-Set-Alias npx "C:\node\node-v20.17.0-win-x64\npx.exe"
-
-# Definindo o caminho do diretório
-$reactPath = "$env:USERPROFILE\Documents\react"
-$projectFolder = "projeto"
+Set-Alias npm "C:\node\node-v20.17.0-win-x64\npm.cmd"
+Set-Alias npx "C:\node\node-v20.17.0-win-x64\npx.cmd"
 
 # Criar a pasta react se não existir
 if (-not (Test-Path -Path $reactPath)) {
@@ -40,12 +40,20 @@ if (-not (Test-Path -Path $reactPath)) {
 Set-Location -Path $reactPath
 Write-Output "Navegando para a pasta 'react': $reactPath"
 
+# Verifica se existe uma pasta do projeto anterior e remove
+# if (Test-Path -Path "$reactPath\$projectFolder") {
+#     Remove-Item -Path "$reactPath\$projectFolder" -Recurse -Force
+#     Write-Output "Pasta '$projectFolder' removida."
+# } else {
+#     Write-Output "Nenhuma pasta '$projectFolder' encontrada para remoção."
+# }
+
 # Criar um novo projeto Expo
-#npx expo init $projectFolder --template blank
+npx expo init $projectFolder --template blank
 
 # Navega para a nova pasta do projeto
-#Set-Location -Path "$reactPath\$projectFolder"
-#Write-Output "Navegando para a pasta do projeto: $reactPath\$projectFolder"
+# Set-Location -Path "$reactPath\$projectFolder"
+# Write-Output "Navegando para a pasta do projeto: $reactPath\$projectFolder"
 
 # Inicia o projeto
-#npx expo start
+# npx expo start
