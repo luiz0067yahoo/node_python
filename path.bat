@@ -65,3 +65,4 @@ pip install Flask-CORS
 pip install Flask
 pip install mysql-connector-python
 
+#New-NetFirewallRule -DisplayName "Allow HTTP" -Direction Inbound -Protocol TCP -LocalPort 8081 -Action Allow
