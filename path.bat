@@ -25,7 +25,15 @@ Write-Host $newPath
 # Define o PATH atualizado
 setx PATH $newPath
 
+$newPath = ($env:PATH -split ';' | Where-Object { $_ -ne 'C:\Program Files\nodejs\' -and $_ -ne 'C:\Program Files\nodejs' }) -join ';'
+$newPath += ";C:\node\node-v20.17.0-win-x64"
+setx PATH $newPath
+
 # Confirma a atualização
 $env:PATH -split ';' | ForEach-Object { $_ } | Select-Object -Unique
 
+
+
 npx expo install react-native-web react-dom @expo/metro-runtime
+
+
