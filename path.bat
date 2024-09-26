@@ -36,10 +36,12 @@ Write-Output "Extração concluída para $nodeDirectory."
 
 # Remove o caminho do Node.js do PATH existente
 $newPath = ($env:PATH -split ';' | Where-Object { $_ -ne 'C:\Program Files\nodejs\' -and $_ -ne 'C:\Program Files\nodejs' }) -join ';'
+$env:Path += ";C:\Program Files\WindowsApps\Microsoft.DesktopAppInstaller_*\"
 
 # Adiciona o caminho do Python ao PATH
 #  winget install Python.Python.3.12 
-ms-windows-store://pdp/?productid=9NRWMJP3717K
+# ms-windows-store://pdp/?productid=9NRWMJP3717K
+Start-Process "winget" -ArgumentList "install Python.Python.3.12"
 $newPath += ";$env:USERPROFILE\AppData\Local\Programs\Python\Python312"
 $newPath += ";$env:USERPROFILE\AppData\Local\Programs\Python\Python312\Scripts"
 
