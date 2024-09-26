@@ -1,8 +1,43 @@
 # Definindo os caminhos
+$documentsPath = "$env:USERPROFILE\Documents"
+$reactPath = "$documentsPath\react"
+$nodeZipPath = "$reactPath\node-v20.17.0-win-x64.zip"
+$nodeDirectory = "C:\node"
 $downloadsPath = "$env:USERPROFILE\Downloads\android-studio-2024.1.2.13-windows.zip"
 $androidStudioDirectory = "C:\android-studio"
 
-# Verifica se o arquivo já existe e o remove se necessário
+# Criar a pasta react se não existir
+if (-not (Test-Path -Path $reactPath)) {
+    New-Item -Path $reactPath -ItemType Directory
+    Write-Output "Pasta react criada em $reactPath."
+}
+
+# Navegar para a pasta react
+Set-Location -Path $reactPath
+
+# Verificar se o arquivo ZIP do Node.js já existe e excluir se necessário
+if (Test-Path -Path $nodeZipPath) {
+    Remove-Item -Path $nodeZipPath -Force
+    Write-Output "O arquivo $nodeZipPath foi removido."
+}
+
+# Baixar o Node.js ZIP
+Write-Output "Baixando Node.js..."
+Invoke-WebRequest -Uri "https://nodejs.org/dist/v20.17.0/node-v20.17.0-win-x64.zip" -OutFile $nodeZipPath
+Write-Output "Download concluído: $nodeZipPath"
+
+# Criar a pasta C:\node se não existir
+if (-not (Test-Path -Path $nodeDirectory)) {
+    New-Item -Path $nodeDirectory -ItemType Directory
+    Write-Output "Pasta C:\node criada."
+}
+
+# Extrair o conteúdo do ZIP do Node.js para C:\node
+Write-Output "Extraindo $nodeZipPath para $nodeDirectory..."
+Expand-Archive -Path $nodeZipPath -DestinationPath $nodeDirectory -Force
+Write-Output "Extração concluída para $nodeDirectory."
+
+# Verifica se o arquivo do Android Studio já existe e o remove se necessário
 if (Test-Path -Path $downloadsPath) {
     Remove-Item -Path $downloadsPath -Force
     Write-Output "O arquivo $downloadsPath foi removido."
@@ -19,15 +54,18 @@ if (-not (Test-Path -Path $androidStudioDirectory)) {
     Write-Output "Pasta C:\android-studio criada."
 }
 
-# Extrair o conteúdo do ZIP para C:\android-studio
+# Extrair o conteúdo do ZIP do Android Studio para C:\android-studio
 Write-Output "Extraindo $downloadsPath para $androidStudioDirectory..."
 Expand-Archive -Path $downloadsPath -DestinationPath $androidStudioDirectory -Force
 Write-Output "Extração concluída para $androidStudioDirectory."
 
-# Remove o caminho do Android Studio do PATH existente
-$newPath = ($env:PATH -split ';' | Where-Object { $_ -ne 'C:\android-studio\bin' }) -join ';'
+# Atualizando o PATH
+# Remove o caminho do Node.js do PATH existente
+$newPath = ($env:PATH -split ';' | Where-Object { $_ -ne 'C:\Program Files\nodejs\' -and $_ -ne 'C:\Program Files\nodejs' }) -join ';'
+$newPath += ";C:\node\node-v20.17.0-win-x64"
 
-# Adiciona o caminho do Android Studio ao PATH
+# Remove o caminho do Android Studio do PATH existente, se presente
+$newPath = ($newPath -split ';' | Where-Object { $_ -ne 'C:\android-studio\bin' }) -join ';'
 $newPath += ";C:\android-studio\bin"
 
 # Remove entradas duplicadas
@@ -38,4 +76,16 @@ Write-Host "Novo PATH a ser definido:"
 Write-Host $newPath
 
 # Define o PATH atualizado
-setx P
+setx PATH $newPath
+
+# Confirma a atualização
+$env:PATH -split ';' | ForEach-Object { $_ } | Select-Object -Unique
+
+# Instala Python e suas dependências
+Start-Process "winget" -ArgumentList "install Python.Python.3.12"
+python.exe -m pip install --upgrade pip
+pip install Flask-CORS
+pip install Flask
+pip install mysql-connector-python
+
+# New-NetFirewallRule -DisplayName "Allow HTTP" -Direction Inbound -Protocol TCP -LocalPort 8081 -Action Allow
