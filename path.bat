@@ -22,13 +22,10 @@ $newPath = ($newPath -split ';' | Select-Object -Unique) -join ';'
 Write-Host "Novo PATH a ser definido:"
 Write-Host $newPath
 
-
-# Confirma a atualização
-$env:PATH -split ';' | ForEach-Object { $_ } | Select-Object -Unique
-
 # Define o PATH atualizado
 setx PATH $newPath
 
+# Definindo aliases
 Set-Alias node "C:\node\node-v20.17.0-win-x64\node.exe"
 Set-Alias npm "C:\node\node-v20.17.0-win-x64\npm.exe"
 Set-Alias npx "C:\node\node-v20.17.0-win-x64\npx.exe"
@@ -48,6 +45,6 @@ if (-not (Test-Path -Path $reactPath)) {
 Set-Location -Path $reactPath
 Write-Output "Navegando para a pasta 'react': $reactPath"
 
-#npx expo install react-native-web react-dom @expo/metro-runtime
 
-
+# Criar um novo projeto Expo
+#npx expo init $projectFolder --template blank
