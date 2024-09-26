@@ -2,7 +2,7 @@
 $documentsPath = "$env:USERPROFILE\Documents"
 $reactPath = "$documentsPath\react"
 $nodeZipPath = "$reactPath\node-v20.17.0-win-x64.zip"
-$nodeDirectory = "C:\node"
+$nodeDirectory = "C:\node\node-v20.17.0-win-x64"
 $downloadsPath = "$env:USERPROFILE\Downloads\android-studio-2024.1.2.13-windows.zip"
 $androidStudioDirectory = "C:\android-studio"
 
