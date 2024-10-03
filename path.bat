@@ -1,11 +1,11 @@
 # Definindo os caminhos
-$nodePath = "C:\node\node-v20.17.0-win-x64"
+$nodePath = "C:\node\node-v20.18.0-win-x64"
 $androidStudioPath = "C:\android-studio\bin"
 
 # Definindo aliases (apenas para a sessão atual)
-Set-Alias node "C:\node\node-v20.17.0-win-x64\node.exe"
-Set-Alias npm "C:\node\node-v20.17.0-win-x64\npm.cmd"
-Set-Alias npx "C:\node\node-v20.17.0-win-x64\npx.cmd"
+Set-Alias node "C:\node\node-v20.18.0-win-x64\node.exe"
+Set-Alias npm "C:\node\node-v20.18.0-win-x64\npm.cmd"
+Set-Alias npx "C:\node\node-v20.18.0-win-x64\npx.cmd"
 
 
 [Environment]::SetEnvironmentVariable('Path', ($env:Path -replace 'C:\\Program Files\\nodejs;?', ''), 'User')
@@ -25,7 +25,7 @@ $uniquePathEntries = $pathEntries | Select-Object -Unique
 $currentPath = [Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User)
 
 # Remover diretórios de Node.js anteriormente no PATH
-$nodePaths = @("C:\node", "C:\node\node-v20.17.0-win-x64", "C:\Program Files\nodejs")
+$nodePaths = @("C:\node", "C:\node\node-v20.18.0-win-x64", "C:\Program Files\nodejs")
 foreach ($path in $nodePaths) {
     $currentPath = $currentPath -replace [regex]::Escape($path + ";"), ""
 }
